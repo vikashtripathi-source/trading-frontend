@@ -1,7 +1,8 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
+import { isPlatformBrowser } from '@angular/common';
 
 export interface ApiResponse<T> {
   data: T;
@@ -174,13 +175,51 @@ export class ApiService {
   private baseUrl = environment.apiUrl || 'http://localhost:8080/api';
   private wsUrl = environment.wsUrl || 'ws://localhost:8080/ws';
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    @Inject(PLATFORM_ID) private platformId: Object
+  ) {}
 
   private getHeaders(): HttpHeaders {
-    const token = localStorage.getItem('jwt_token');
+    let token = null;
+    if (isPlatformBrowser(this.platformId)) {
+      token = localStorage.getItem('jwt_token');
+    }
     return new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': token ? `Bearer ${token}` : ''
+    });
+  }
+
+  private getAuthHeaders(): HttpHeaders {
+    let token = null;
+    if (isPlatformBrowser(this.platformId)) {
+      token = localStorage.getItem('jwt_token');
+    }
+    return new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': token ? `Bearer ${token}` : ''
+    });
+  }
+
+  // Authentication Methods
+  register(userData: any): Observable<ApiResponse<any>> {
+    return this.http.post<ApiResponse<any>>(`${this.baseUrl}/auth/register`, userData);
+  }
+
+  login(credentials: { email: string; password: string }): Observable<ApiResponse<{ user: any; token: string }>> {
+    return this.http.post<ApiResponse<{ user: any; token: string }>>(`${this.baseUrl}/auth/login`, credentials);
+  }
+
+  logout(): Observable<ApiResponse<void>> {
+    return this.http.post<ApiResponse<void>>(`${this.baseUrl}/auth/logout`, {}, {
+      headers: this.getAuthHeaders()
+    });
+  }
+
+  getProfile(): Observable<ApiResponse<any>> {
+    return this.http.get<ApiResponse<any>>(`${this.baseUrl}/auth/profile`, {
+      headers: this.getAuthHeaders()
     });
   }
 

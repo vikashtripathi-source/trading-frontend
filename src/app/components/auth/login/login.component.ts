@@ -9,6 +9,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ApiService } from '../../../services/api.service';
 
 @Component({
   selector: 'app-login',
@@ -35,6 +36,7 @@ export class LoginComponent {
     private fb: FormBuilder,
     private router: Router,
     private snackBar: MatSnackBar,
+    private apiService: ApiService,
     @Inject(PLATFORM_ID) private platformId: Object
   ) {
     this.loginForm = this.fb.group({
@@ -50,26 +52,31 @@ export class LoginComponent {
 
     this.isLoading = true;
     
-    // Simulate API call
-    setTimeout(() => {
-      // Mock authentication - in real app, this would call your API
-      if (this.loginForm.value.email === 'demo@trading.com' && this.loginForm.value.password === 'demo123') {
-        if (isPlatformBrowser(this.platformId)) {
-          localStorage.setItem('jwt_token', 'mock-jwt-token');
+    // Call real API
+    this.apiService.login(this.loginForm.value).subscribe({
+      next: (response) => {
+        if (response.data && response.data.token) {
+          if (isPlatformBrowser(this.platformId)) {
+            localStorage.setItem('jwt_token', response.data.token);
+          }
+          this.snackBar.open('Login successful!', 'Close', {
+            duration: 3000,
+            panelClass: ['success-snackbar']
+          });
+          this.router.navigate(['/dashboard']);
         }
-        this.snackBar.open('Login successful!', 'Close', {
-          duration: 3000,
-          panelClass: ['success-snackbar']
-        });
-        this.router.navigate(['/dashboard']);
-      } else {
-        this.snackBar.open('Invalid credentials. Try demo@trading.com / demo123', 'Close', {
+      },
+      error: (error) => {
+        console.error('Login error:', error);
+        this.snackBar.open(error.message || 'Login failed. Please try again.', 'Close', {
           duration: 5000,
           panelClass: ['error-snackbar']
         });
+      },
+      complete: () => {
+        this.isLoading = false;
       }
-      this.isLoading = false;
-    }, 1000);
+    });
   }
 
   togglePasswordVisibility(): void {

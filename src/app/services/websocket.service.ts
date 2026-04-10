@@ -1,6 +1,7 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
 import { Subject, Observable } from 'rxjs';
 import { ApiService } from './api.service';
+import { isPlatformBrowser } from '@angular/common';
 
 export interface MarketDataUpdate {
   type: 'market-data';
@@ -45,9 +46,17 @@ export class WebSocketService {
   private maxReconnectAttempts = 5;
   private reconnectInterval = 5000;
 
-  constructor(private apiService: ApiService) {}
+  constructor(
+    private apiService: ApiService,
+    @Inject(PLATFORM_ID) private platformId: Object
+  ) {}
 
   connect(): void {
+    // Don't connect in SSR environment
+    if (!isPlatformBrowser(this.platformId)) {
+      return;
+    }
+
     if (this.socket && this.socket.readyState === WebSocket.OPEN) {
       return;
     }
