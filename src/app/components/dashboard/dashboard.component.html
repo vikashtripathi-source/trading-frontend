@@ -1,0 +1,171 @@
+<div class="dashboard-container">
+  <div class="dashboard-header">
+    <h1>Trading Dashboard</h1>
+    <button mat-icon-button (click)="refreshData()" class="refresh-btn">
+      <i data-lucide="refresh-cw"></i>
+    </button>
+  </div>
+
+  <div class="loading-overlay" *ngIf="isLoading">
+    <mat-spinner></mat-spinner>
+  </div>
+
+  <div class="error-message" *ngIf="error">
+    <mat-icon class="error-icon">error</mat-icon>
+    <span>{{ error }}</span>
+  </div>
+
+  <div class="dashboard-content" *ngIf="!isLoading && !error">
+    <!-- Portfolio Overview -->
+    <div class="dashboard-grid">
+      <mat-card class="portfolio-overview">
+        <mat-card-header>
+          <mat-card-title>Portfolio Overview</mat-card-title>
+          <mat-card-subtitle>{{ portfolio?.name || 'Main Portfolio' }}</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="portfolio-stats">
+            <div class="stat-item">
+              <div class="stat-label">Total Value</div>
+              <div class="stat-value">{{ formatCurrency(portfolio?.totalValue || 0) }}</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-label">Available Balance</div>
+              <div class="stat-value">{{ formatCurrency(portfolio?.availableBalance || 0) }}</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-label">Daily P&L</div>
+              <div class="stat-value" [class]="getPositiveChangeClass(portfolio?.dailyPnL || 0)">
+                {{ formatCurrency(portfolio?.dailyPnL || 0) }}
+                <span class="percentage">({{ formatPercentage(((portfolio?.dailyPnL || 0) / (portfolio?.totalValue || 1)) * 100) }})</span>
+              </div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-label">Total P&L</div>
+              <div class="stat-value" [class]="getPositiveChangeClass(portfolio?.totalPnL || 0)">
+                {{ formatCurrency(portfolio?.totalPnL || 0) }}
+              </div>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <!-- Market Indices -->
+      <mat-card class="market-indices">
+        <mat-card-header>
+          <mat-card-title>Market Indices</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="indices-list">
+            <div class="index-item" *ngFor="let index of marketIndices">
+              <div class="index-info">
+                <div class="index-name">{{ index.name }}</div>
+                <div class="index-symbol">{{ index.symbol }}</div>
+              </div>
+              <div class="index-value">
+                <div class="value">{{ formatCurrency(index.value) }}</div>
+                <div class="change" [class]="getPositiveChangeClass(index.change)">
+                  {{ index.change >= 0 ? '+' : '' }}{{ index.change.toFixed(2) }}
+                  ({{ formatPercentage(index.changePercentage) }})
+                </div>
+              </div>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <!-- Trading Statistics -->
+      <mat-card class="trading-stats">
+        <mat-card-header>
+          <mat-card-title>Trading Statistics (1M)</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="stats-grid">
+            <div class="stat-box">
+              <div class="stat-number">{{ statistics?.totalTrades || 0 }}</div>
+              <div class="stat-desc">Total Trades</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-number">{{ formatPercentage(statistics?.winRate || 0) }}</div>
+              <div class="stat-desc">Win Rate</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-number">{{ formatCurrency(statistics?.totalPnL || 0) }}</div>
+              <div class="stat-desc">Total P&L</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-number">{{ statistics?.profitFactor || 0 }}</div>
+              <div class="stat-desc">Profit Factor</div>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <!-- Top Movers -->
+      <div class="movers-section">
+        <mat-card class="top-gainers">
+          <mat-card-header>
+            <mat-card-title>Top Gainers</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <div class="movers-list">
+              <div class="mover-item" *ngFor="let stock of topGainers">
+                <div class="stock-info">
+                  <div class="stock-symbol">{{ stock.symbol }}</div>
+                  <div class="stock-price">{{ formatCurrency(stock.currentPrice) }}</div>
+                </div>
+                <div class="stock-change positive">
+                  <div class="change-value">+{{ stock.change.toFixed(2) }}</div>
+                  <div class="change-percent">+{{ stock.changePercentage.toFixed(2) }}%</div>
+                </div>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+
+        <mat-card class="top-losers">
+          <mat-card-header>
+            <mat-card-title>Top Losers</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <div class="movers-list">
+              <div class="mover-item" *ngFor="let stock of topLosers">
+                <div class="stock-info">
+                  <div class="stock-symbol">{{ stock.symbol }}</div>
+                  <div class="stock-price">{{ formatCurrency(stock.currentPrice) }}</div>
+                </div>
+                <div class="stock-change negative">
+                  <div class="change-value">{{ stock.change.toFixed(2) }}</div>
+                  <div class="change-percent">{{ stock.changePercentage.toFixed(2) }}%</div>
+                </div>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+
+      <!-- Top Holdings -->
+      <mat-card class="top-holdings">
+        <mat-card-header>
+          <mat-card-title>Top Holdings</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="holdings-list">
+            <div class="holding-item" *ngFor="let holding of portfolio?.holdings?.slice(0, 5)">
+              <div class="holding-info">
+                <div class="holding-symbol">{{ holding.symbol }}</div>
+                <div class="holding-quantity">{{ holding.quantity }} shares</div>
+              </div>
+              <div class="holding-value">
+                <div class="total-value">{{ formatCurrency(holding.totalValue) }}</div>
+                <div class="holding-pnl" [class]="getPositiveChangeClass(holding.pnl)">
+                  {{ formatCurrency(holding.pnl) }} ({{ formatPercentage(holding.pnlPercentage) }})
+                </div>
+              </div>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</div>

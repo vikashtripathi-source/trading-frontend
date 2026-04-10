@@ -1,0 +1,96 @@
+<nav class="navbar">
+  <div class="navbar-brand">
+    <div class="logo">
+      <i data-lucide="trending-up"></i>
+      <span>TradingHub</span>
+    </div>
+  </div>
+
+  <div class="navbar-menu">
+    <a class="nav-item" 
+       [class.active]="isRouteActive('dashboard')" 
+       routerLink="/dashboard">
+      <i data-lucide="layout-dashboard"></i>
+      <span>Dashboard</span>
+    </a>
+    
+    <a class="nav-item" 
+       [class.active]="isRouteActive('trading')" 
+       routerLink="/trading">
+      <i data-lucide="briefcase"></i>
+      <span>Trading</span>
+    </a>
+    
+    <a class="nav-item" 
+       [class.active]="isRouteActive('portfolio')" 
+       routerLink="/portfolio">
+      <i data-lucide="pie-chart"></i>
+      <span>Portfolio</span>
+    </a>
+    
+    <a class="nav-item" 
+       [class.active]="isRouteActive('orders')" 
+       routerLink="/orders">
+      <i data-lucide="list"></i>
+      <span>Orders</span>
+    </a>
+    
+    <a class="nav-item" 
+       [class.active]="isRouteActive('watchlist')" 
+       routerLink="/watchlist">
+      <i data-lucide="eye"></i>
+      <span>Watchlist</span>
+    </a>
+    
+    <a class="nav-item" 
+       [class.active]="isRouteActive('market')" 
+       routerLink="/market">
+      <i data-lucide="bar-chart-2"></i>
+      <span>Market</span>
+    </a>
+    
+    <a class="nav-item" 
+       [class.active]="isRouteActive('analytics')" 
+       routerLink="/analytics">
+      <i data-lucide="analytics"></i>
+      <span>Analytics</span>
+    </a>
+  </div>
+
+  <div class="navbar-actions">
+    <button class="icon-btn" (click)="toggleDarkMode()" title="Toggle Dark Mode">
+      <i data-lucide="moon"></i>
+    </button>
+    
+    <button class="icon-btn" title="Notifications">
+      <i data-lucide="bell"></i>
+      <span class="notification-badge">3</span>
+    </button>
+    
+    <div class="user-menu">
+      <button class="user-btn">
+        <div class="user-avatar">
+          <i data-lucide="user"></i>
+        </div>
+        <span>John Doe</span>
+        <i data-lucide="chevron-down"></i>
+      </button>
+      
+      <div class="user-dropdown">
+        <a href="#" class="dropdown-item">
+          <i data-lucide="user"></i>
+          Profile
+        </a>
+        <a href="#" class="dropdown-item">
+          <i data-lucide="settings"></i>
+          Settings
+        </a>
+        <div class="dropdown-divider"></div>
+        <a href="#" class="dropdown-item" (click)="logout()">
+          <i data-lucide="log-out"></i>
+          Logout
+        </a>
+      </div>
+    </div>
+  </div>
+</nav>
