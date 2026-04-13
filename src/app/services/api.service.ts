@@ -1,14 +1,18 @@
 import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { isPlatformBrowser } from '@angular/common';
+import { MockApiService } from './mock-api.service';
 
 export interface ApiResponse<T> {
-  data: T;
+  code: number;
   message: string;
-  timestamp: string;
-  status: number;
+  timestamp: number;
+  requestId: string;
+  fieldsErrors: any[] | null;
+  data: T;
+  path: string;
 }
 
 export interface Trade {
@@ -172,13 +176,21 @@ export interface TradeAnalysis {
   providedIn: 'root'
 })
 export class ApiService {
-  private baseUrl = environment.apiUrl || 'http://localhost:8080/api';
-  private wsUrl = environment.wsUrl || 'ws://localhost:8080/ws';
+  private baseUrl = environment.apiUrl || 'http://localhost:8081/api';
+  private wsUrl = environment.wsUrl || 'ws://localhost:8081/ws';
+  private useMockApi = environment.useMockApi;
 
   constructor(
     private http: HttpClient,
-    @Inject(PLATFORM_ID) private platformId: Object
-  ) {}
+    @Inject(PLATFORM_ID) private platformId: Object,
+    private mockApiService: MockApiService
+  ) {
+    console.log('API Service initialized with:', {
+      baseUrl: this.baseUrl,
+      wsUrl: this.wsUrl,
+      useMockApi: this.useMockApi
+    });
+  }
 
   private getHeaders(): HttpHeaders {
     let token = null;
@@ -204,20 +216,36 @@ export class ApiService {
 
   // Authentication Methods
   register(userData: any): Observable<ApiResponse<any>> {
+    if (this.useMockApi) {
+      return this.mockApiService.register(userData);
+    }
     return this.http.post<ApiResponse<any>>(`${this.baseUrl}/auth/register`, userData);
   }
 
   login(credentials: { email: string; password: string }): Observable<ApiResponse<{ user: any; token: string }>> {
+    console.log('API Service login called with:', credentials);
+    console.log('useMockApi:', this.useMockApi);
+    if (this.useMockApi) {
+      console.log('Using mock API for login');
+      return this.mockApiService.login(credentials);
+    }
+    console.log('Using real HTTP API for login');
     return this.http.post<ApiResponse<{ user: any; token: string }>>(`${this.baseUrl}/auth/login`, credentials);
   }
 
   logout(): Observable<ApiResponse<void>> {
+    if (this.useMockApi) {
+      return this.mockApiService.logout();
+    }
     return this.http.post<ApiResponse<void>>(`${this.baseUrl}/auth/logout`, {}, {
       headers: this.getAuthHeaders()
     });
   }
 
   getProfile(): Observable<ApiResponse<any>> {
+    if (this.useMockApi) {
+      return this.mockApiService.getProfile();
+    }
     return this.http.get<ApiResponse<any>>(`${this.baseUrl}/auth/profile`, {
       headers: this.getAuthHeaders()
     });
@@ -256,6 +284,9 @@ export class ApiService {
 
   // Portfolio API
   getUserPortfolio(userId: string): Observable<ApiResponse<Portfolio>> {
+    if (this.useMockApi) {
+      return this.mockApiService.getUserPortfolio(userId);
+    }
     return this.http.get<ApiResponse<Portfolio>>(`${this.baseUrl}/portfolios/user/${userId}`, {
       headers: this.getHeaders()
     });
@@ -335,18 +366,27 @@ export class ApiService {
   }
 
   getMarketIndices(): Observable<ApiResponse<{ indices: MarketIndex[] }>> {
+    if (this.useMockApi) {
+      return this.mockApiService.getMarketIndices();
+    }
     return this.http.get<ApiResponse<{ indices: MarketIndex[] }>>(`${this.baseUrl}/market/indices`, {
       headers: this.getHeaders()
     });
   }
 
   getTopGainers(limit: number = 10): Observable<ApiResponse<MarketData[]>> {
+    if (this.useMockApi) {
+      return this.mockApiService.getTopGainers(limit);
+    }
     return this.http.get<ApiResponse<MarketData[]>>(`${this.baseUrl}/market/top-gainers?limit=${limit}`, {
       headers: this.getHeaders()
     });
   }
 
   getTopLosers(limit: number = 10): Observable<ApiResponse<MarketData[]>> {
+    if (this.useMockApi) {
+      return this.mockApiService.getTopLosers(limit);
+    }
     return this.http.get<ApiResponse<MarketData[]>>(`${this.baseUrl}/market/top-losers?limit=${limit}`, {
       headers: this.getHeaders()
     });
@@ -360,18 +400,27 @@ export class ApiService {
 
   // Analytics API
   getTradingStatistics(userId: string, period: string): Observable<ApiResponse<TradingStatistics>> {
+    if (this.useMockApi) {
+      return this.mockApiService.getTradingStatistics(userId, period);
+    }
     return this.http.get<ApiResponse<TradingStatistics>>(`${this.baseUrl}/analytics/user/${userId}/statistics?period=${period}`, {
       headers: this.getHeaders()
     });
   }
 
   getPerformanceMetrics(userId: string, period: string): Observable<ApiResponse<PerformanceMetrics>> {
+    if (this.useMockApi) {
+      return this.mockApiService.getPerformanceMetrics(userId, period);
+    }
     return this.http.get<ApiResponse<PerformanceMetrics>>(`${this.baseUrl}/analytics/user/${userId}/performance?period=${period}`, {
       headers: this.getHeaders()
     });
   }
 
   getTradeAnalysis(userId: string, period: string): Observable<ApiResponse<TradeAnalysis>> {
+    if (this.useMockApi) {
+      return this.mockApiService.getTradeAnalysis(userId, period);
+    }
     return this.http.get<ApiResponse<TradeAnalysis>>(`${this.baseUrl}/analytics/user/${userId}/trade-analysis?period=${period}`, {
       headers: this.getHeaders()
     });

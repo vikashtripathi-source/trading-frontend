@@ -1,0 +1,212 @@
+<div class="dashboard-container">
+  <!-- Header Section -->
+  <div class="dashboard-header">
+    <div class="header-left">
+      <h1 class="welcome-title">Welcome back, {{ currentUser?.firstName || 'Trader' }}!</h1>
+      <p class="welcome-subtitle">Here's your trading overview</p>
+    </div>
+    <div class="header-right">
+      <button mat-raised-button (click)="refreshData()" color="primary" class="refresh-btn">
+        <mat-icon>refresh</mat-icon>
+        Refresh
+      </button>
+      <button mat-raised-button (click)="logout()" color="warn" class="logout-btn">
+        <mat-icon>logout</mat-icon>
+        Logout
+      </button>
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="isLoading" class="loading-overlay">
+    <mat-spinner></mat-spinner>
+    <p>Loading dashboard data...</p>
+  </div>
+
+  <!-- Main Content -->
+  <div *ngIf="!isLoading" class="dashboard-content">
+    <!-- Portfolio Overview -->
+    <mat-card class="portfolio-card">
+      <mat-card-header>
+        <h2>Portfolio Overview</h2>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="portfolio-stats">
+          <div class="stat-item">
+            <div class="stat-label">Total Value</div>
+            <div class="stat-value">{{ formatCurrency(portfolio?.totalValue || 0) }}</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-label">Available Balance</div>
+            <div class="stat-value">{{ formatCurrency(portfolio?.availableBalance || 0) }}</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-label">Total P&L</div>
+            <div class="stat-value" [ngClass]="getProfitLossClass(portfolio?.totalPnL || 0)">
+              {{ formatCurrency(portfolio?.totalPnL || 0) }}
+            </div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-label">Daily P&L</div>
+            <div class="stat-value" [ngClass]="getProfitLossClass(portfolio?.dailyPnL || 0)">
+              {{ formatCurrency(portfolio?.dailyPnL || 0) }}
+            </div>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Market Indices -->
+    <mat-card class="indices-card">
+      <mat-card-header>
+        <h2>Market Indices</h2>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="indices-grid">
+          <div class="index-item" *ngFor="let index of marketIndices">
+            <div class="index-name">{{ index.name }}</div>
+            <div class="index-value">{{ formatCurrency(index.value) }}</div>
+            <div class="index-change" [ngClass]="getProfitLossClass(index.change)">
+              {{ formatPercentage(index.changePercentage) }}
+            </div>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Holdings Table -->
+    <mat-card class="holdings-card">
+      <mat-card-header>
+        <h2>Your Holdings</h2>
+      </mat-card-header>
+      <mat-card-content>
+        <table class="holdings-table" *ngIf="portfolio?.holdings && portfolio!.holdings!.length > 0; else noHoldings">
+          <thead>
+            <tr>
+              <th>Symbol</th>
+              <th>Quantity</th>
+              <th>Avg Price</th>
+              <th>Current Price</th>
+              <th>Total Value</th>
+              <th>P&L</th>
+              <th>P&L %</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let holding of portfolio?.holdings">
+              <td><strong>{{ holding.symbol }}</strong></td>
+              <td>{{ holding.quantity }}</td>
+              <td>{{ formatCurrency(holding.averagePrice) }}</td>
+              <td>{{ formatCurrency(holding.currentPrice) }}</td>
+              <td><strong>{{ formatCurrency(holding.totalValue) }}</strong></td>
+              <td [ngClass]="getProfitLossClass(holding.pnl)">{{ formatCurrency(holding.pnl) }}</td>
+              <td [ngClass]="getProfitLossClass(holding.pnl)">{{ formatPercentage(holding.pnlPercentage) }}</td>
+            </tr>
+          </tbody>
+        </table>
+        
+        <ng-template #noHoldings>
+          <div class="no-holdings">
+            <p>No holdings data available.</p>
+          </div>
+        </ng-template>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Trading Statistics -->
+    <mat-card class="stats-card">
+      <mat-card-header>
+        <h2>Trading Statistics (30 days)</h2>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="stats-grid">
+          <div class="stat-item">
+            <div class="stat-label">Total Trades</div>
+            <div class="stat-value">{{ tradingStats?.totalTrades || 0 }}</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-label">Win Rate</div>
+            <div class="stat-value">{{ tradingStats?.winRate || 0 }}%</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-label">Profit Factor</div>
+            <div class="stat-value">{{ tradingStats?.profitFactor || 0 }}</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-label">Total P&L</div>
+            <div class="stat-value" [ngClass]="getProfitLossClass(tradingStats?.totalPnL || 0)">
+              {{ formatCurrency(tradingStats?.totalPnL || 0) }}
+            </div>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Market Movers -->
+    <div class="movers-section">
+      <mat-card class="gainers-card">
+        <mat-card-header>
+          <h2>📈 Top Gainers</h2>
+        </mat-card-header>
+        <mat-card-content>
+          <table class="gainers-table" *ngIf="topGainers && topGainers.length > 0; else noGainers">
+            <thead>
+              <tr>
+                <th>Symbol</th>
+                <th>Price</th>
+                <th>Change</th>
+                <th>Change %</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let stock of topGainers">
+                <td><strong>{{ stock.symbol }}</strong></td>
+                <td>{{ formatCurrency(stock.currentPrice) }}</td>
+                <td class="gain">+{{ formatCurrency(stock.change) }}</td>
+                <td class="gain">+{{ formatPercentage(stock.changePercentage) }}</td>
+              </tr>
+            </tbody>
+          </table>
+          
+          <ng-template #noGainers>
+            <div class="no-gainers">
+              <p>No gainers data available.</p>
+            </div>
+          </ng-template>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="losers-card">
+        <mat-card-header>
+          <h2>📉 Top Losers</h2>
+        </mat-card-header>
+        <mat-card-content>
+          <table class="losers-table" *ngIf="topLosers && topLosers.length > 0; else noLosers">
+            <thead>
+              <tr>
+                <th>Symbol</th>
+                <th>Price</th>
+                <th>Change</th>
+                <th>Change %</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let stock of topLosers">
+                <td><strong>{{ stock.symbol }}</strong></td>
+                <td>{{ formatCurrency(stock.currentPrice) }}</td>
+                <td class="loss">{{ formatCurrency(stock.change) }}</td>
+                <td class="loss">{{ formatPercentage(stock.changePercentage) }}</td>
+              </tr>
+            </tbody>
+          </table>
+          
+          <ng-template #noLosers>
+            <div class="no-losers">
+              <p>No losers data available.</p>
+            </div>
+          </ng-template>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</div>

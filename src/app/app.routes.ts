@@ -1,58 +1,55 @@
 import { Routes } from '@angular/router';
-import { DashboardComponent } from './components/dashboard/dashboard.component';
-import { TradingComponent } from './components/trading/trading.component';
-import { PortfolioComponent } from './components/portfolio/portfolio.component';
-import { OrdersComponent } from './components/orders/orders.component';
-import { WatchlistComponent } from './components/watchlist/watchlist.component';
-import { MarketDataComponent } from './components/market-data/market-data.component';
-import { AnalyticsComponent } from './components/analytics/analytics.component';
-import { LoginComponent } from './components/auth/login/login.component';
+import { SimpleLoginComponent } from './components/auth/simple-login/simple-login.component';
+import { SimpleSignupComponent } from './components/auth/simple-signup/simple-signup.component';
+import { SimpleDashboardComponent } from './components/dashboard/simple-dashboard/simple-dashboard.component';
 import { AuthGuard } from './guards/auth.guard';
 
+// Lazy loaded modules (will be created)
+const PortfolioModule = () => import('./modules/portfolio/portfolio.module').then(m => m.PortfolioModule);
+const OrdersModule = () => import('./modules/orders/orders.module').then(m => m.OrdersModule);
+const TradesModule = () => import('./modules/trades/trades.module').then(m => m.TradesModule);
+const WatchlistModule = () => import('./modules/watchlist/watchlist.module').then(m => m.WatchlistModule);
+const MarketModule = () => import('./modules/market/market.module').then(m => m.MarketModule);
+const AnalyticsModule = () => import('./modules/analytics/analytics.module').then(m => m.AnalyticsModule);
+
 export const routes: Routes = [
-  { path: 'login', component: LoginComponent },
+  { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
+  { path: 'login', component: SimpleLoginComponent },
+  { path: 'signup', component: SimpleSignupComponent },
   { 
     path: 'dashboard', 
-    component: DashboardComponent,
+    component: SimpleDashboardComponent,
     canActivate: [AuthGuard]
   },
-  { 
-    path: 'trading', 
-    component: TradingComponent,
+  {
+    path: 'portfolio',
+    loadChildren: PortfolioModule,
     canActivate: [AuthGuard]
   },
-  { 
-    path: 'portfolio', 
-    component: PortfolioComponent,
+  {
+    path: 'orders',
+    loadChildren: OrdersModule,
     canActivate: [AuthGuard]
   },
-  { 
-    path: 'orders', 
-    component: OrdersComponent,
+  {
+    path: 'trades',
+    loadChildren: TradesModule,
     canActivate: [AuthGuard]
   },
-  { 
-    path: 'watchlist', 
-    component: WatchlistComponent,
+  {
+    path: 'watchlist',
+    loadChildren: WatchlistModule,
     canActivate: [AuthGuard]
   },
-  { 
-    path: 'market', 
-    component: MarketDataComponent,
+  {
+    path: 'market',
+    loadChildren: MarketModule,
     canActivate: [AuthGuard]
   },
-  { 
-    path: 'analytics', 
-    component: AnalyticsComponent,
+  {
+    path: 'analytics',
+    loadChildren: AnalyticsModule,
     canActivate: [AuthGuard]
   },
-  { 
-    path: '', 
-    redirectTo: '/dashboard',
-    pathMatch: 'full'
-  },
-  { 
-    path: '**', 
-    redirectTo: '/dashboard'
-  }
+  { path: '**', redirectTo: '/dashboard' }
 ];
