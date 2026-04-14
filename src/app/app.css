@@ -17,6 +17,38 @@ body {
   padding-top: 64px;
 }
 
+.main-content.auth-page {
+  min-height: 100vh;
+  padding-top: 0;
+}
+
+.dashboard-nav {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  padding: 16px;
+  background: white;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.dashboard-nav button {
+  border-radius: 8px;
+  font-weight: 600;
+  padding: 12px 24px;
+  transition: all 0.3s ease;
+}
+
+.dashboard-nav button.active {
+  background: #3b82f6;
+  color: white;
+}
+
+.dashboard-nav button:hover {
+  background: #f1f5f9;
+}
+
 /* Material Theme Overrides */
 .mat-mdc-card {
   border-radius: 12px;
@@ -153,7 +185,7 @@ body.dark-mode .mat-mdc-card-subtitle {
   .main-content {
     padding-top: 56px;
   }
-  
+
   .mat-mdc-card {
     margin: 8px;
   }

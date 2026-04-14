@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, PLATFORM_ID } from '@angular/core';
+import { Component, OnInit, Inject, PLATFORM_ID, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
@@ -46,6 +46,7 @@ export class SimpleDashboardComponent implements OnInit {
     private apiService: ApiService,
     private router: Router,
     private snackBar: MatSnackBar,
+    private changeDetectorRef: ChangeDetectorRef,
     @Inject(PLATFORM_ID) private platformId: Object
   ) {}
 
@@ -80,8 +81,12 @@ export class SimpleDashboardComponent implements OnInit {
       console.log(`API request completed. ${completedRequests}/${totalRequests} requests done.`);
       if (completedRequests === totalRequests) {
         console.log('All requests completed, setting isLoading to false');
-        this.isLoading = false;
-        console.log('isLoading is now:', this.isLoading);
+        // Use setTimeout to avoid ExpressionChangedAfterItHasBeenCheckedError
+        setTimeout(() => {
+          this.isLoading = false;
+          console.log('isLoading is now:', this.isLoading);
+          this.changeDetectorRef.detectChanges();
+        });
       }
     };
     
