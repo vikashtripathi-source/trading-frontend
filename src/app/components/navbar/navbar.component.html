@@ -1,8 +1,8 @@
 <nav class="navbar">
   <div class="navbar-brand">
     <div class="logo">
-      <i data-lucide="trending-up"></i>
-      <span>TradingHub</span>
+      <img src="favicon.ico" alt="TradingHub Logo" class="favicon-logo">
+      <span class="logo-text">TradingHub</span>
     </div>
   </div>
 
@@ -10,84 +10,84 @@
     <a class="nav-item" 
        [class.active]="isRouteActive('dashboard')" 
        routerLink="/dashboard">
-      <i data-lucide="layout-dashboard"></i>
-      <span>Dashboard</span>
+      <mat-icon class="nav-icon">dashboard</mat-icon>
+      <span class="nav-label">Overview</span>
     </a>
     
     <a class="nav-item" 
        [class.active]="isRouteActive('trading')" 
        routerLink="/trading">
-      <i data-lucide="briefcase"></i>
-      <span>Trading</span>
+      <mat-icon class="nav-icon">business_center</mat-icon>
+      <span class="nav-label">Trading</span>
     </a>
     
     <a class="nav-item" 
        [class.active]="isRouteActive('portfolio')" 
        routerLink="/portfolio">
-      <i data-lucide="pie-chart"></i>
-      <span>Portfolio</span>
+      <mat-icon class="nav-icon">pie_chart</mat-icon>
+      <span class="nav-label">Portfolio</span>
     </a>
     
     <a class="nav-item" 
        [class.active]="isRouteActive('orders')" 
        routerLink="/orders">
-      <i data-lucide="list"></i>
-      <span>Orders</span>
+      <mat-icon class="nav-icon">list_alt</mat-icon>
+      <span class="nav-label">Orders</span>
     </a>
     
     <a class="nav-item" 
        [class.active]="isRouteActive('watchlist')" 
        routerLink="/watchlist">
-      <i data-lucide="eye"></i>
-      <span>Watchlist</span>
+      <mat-icon class="nav-icon">visibility</mat-icon>
+      <span class="nav-label">Watchlist</span>
     </a>
     
     <a class="nav-item" 
        [class.active]="isRouteActive('market')" 
        routerLink="/market">
-      <i data-lucide="bar-chart-2"></i>
-      <span>Market</span>
+      <mat-icon class="nav-icon">bar_chart</mat-icon>
+      <span class="nav-label">Market</span>
     </a>
     
     <a class="nav-item" 
        [class.active]="isRouteActive('analytics')" 
        routerLink="/analytics">
-      <i data-lucide="analytics"></i>
-      <span>Analytics</span>
+      <mat-icon class="nav-icon">analytics</mat-icon>
+      <span class="nav-label">Analytics</span>
     </a>
   </div>
 
   <div class="navbar-actions">
     <button class="icon-btn" (click)="toggleDarkMode()" title="Toggle Dark Mode">
-      <i data-lucide="moon"></i>
+      <mat-icon>dark_mode</mat-icon>
     </button>
     
     <button class="icon-btn" title="Notifications">
-      <i data-lucide="bell"></i>
+      <mat-icon>notifications</mat-icon>
       <span class="notification-badge">3</span>
     </button>
     
     <div class="user-menu">
       <button class="user-btn">
         <div class="user-avatar">
-          <i data-lucide="user"></i>
+          <mat-icon>person</mat-icon>
         </div>
-        <span>John Doe</span>
-        <i data-lucide="chevron-down"></i>
+        <span class="user-name">John Doe</span>
+        <mat-icon>expand_more</mat-icon>
       </button>
       
       <div class="user-dropdown">
         <a href="#" class="dropdown-item">
-          <i data-lucide="user"></i>
+          <mat-icon>person</mat-icon>
           Profile
         </a>
         <a href="#" class="dropdown-item">
-          <i data-lucide="settings"></i>
+          <mat-icon>settings</mat-icon>
           Settings
         </a>
         <div class="dropdown-divider"></div>
         <a href="#" class="dropdown-item" (click)="logout()">
-          <i data-lucide="log-out"></i>
+          <mat-icon>logout</mat-icon>
           Logout
         </a>
       </div>

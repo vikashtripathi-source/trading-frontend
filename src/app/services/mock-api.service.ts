@@ -25,15 +25,10 @@ export class MockApiService {
   // Mock data generators
   private generateMockPortfolio(): Portfolio {
     return {
-      id: 'portfolio-1',
-      userId: 'current-user',
-      name: 'Main Portfolio',
       totalValue: 125000,
       availableBalance: 15000,
-      totalInvested: 110000,
       totalPnL: 15000,
       dailyPnL: 2500,
-      lastUpdated: new Date().toISOString(),
       holdings: [
         {
           symbol: 'AAPL',
@@ -88,24 +83,19 @@ export class MockApiService {
 
   private generateMockMarketIndices(): MarketIndex[] {
     return [
-      { name: 'S&P 500', symbol: 'SPX', value: 4500, change: 25, changePercentage: 0.56 },
-      { name: 'NASDAQ', symbol: 'IXIC', value: 14000, change: -50, changePercentage: -0.36 },
-      { name: 'DOW JONES', symbol: 'DJI', value: 35000, change: 100, changePercentage: 0.29 },
-      { name: 'RUSSELL 2000', symbol: 'RUT', value: 2000, change: 15, changePercentage: 0.75 }
+      { name: 'S&P 500', value: 4500, change: 25, changePercent: 0.56 },
+      { name: 'NASDAQ', value: 14000, change: -50, changePercent: -0.36 },
+      { name: 'DOW JONES', value: 35000, change: 100, changePercent: 0.29 },
+      { name: 'RUSSELL 2000', value: 2000, change: 15, changePercent: 0.75 }
     ];
   }
 
   private generateMockTradingStatistics(): TradingStatistics {
     return {
       totalTrades: 156,
-      winningTrades: 98,
-      losingTrades: 58,
       winRate: 62.8,
-      averageWin: 1250,
-      averageLoss: -650,
       profitFactor: 1.92,
-      totalPnL: 45000,
-      averageHoldingPeriod: 4.5
+      netProfit: 45000
     };
   }
 
@@ -126,11 +116,8 @@ export class MockApiService {
     console.log('Mock API login received:', credentials);
     if (credentials.email === 'vikash.tripathi@example.com' && credentials.password === 'password') {
       return of({
-        code: 200,
+        status: 200,
         message: 'Login successful',
-        timestamp: Date.now(),
-        requestId: 'mock-request-id',
-        fieldsErrors: null,
         data: {
           user: { id: '1', email: credentials.email, name: 'Test User' },
           token: 'mock-jwt-token'
@@ -143,11 +130,8 @@ export class MockApiService {
 
   register(userData: any): Observable<ApiResponse<any>> {
     return of({
-      code: 201,
+      status: 201,
       message: 'Registration successful',
-      timestamp: Date.now(),
-      requestId: 'mock-request-id',
-      fieldsErrors: null,
       data: { id: '2', email: userData.email, name: userData.name },
       path: '/auth/register'
     }).pipe(delay(1000));
@@ -156,11 +140,8 @@ export class MockApiService {
   // Portfolio Methods
   getUserPortfolio(userId: string): Observable<ApiResponse<Portfolio>> {
     return of({
-      code: 200,
+      status: 200,
       message: 'Portfolio retrieved successfully',
-      timestamp: Date.now(),
-      requestId: 'mock-request-id',
-      fieldsErrors: null,
       data: this.generateMockPortfolio(),
       path: '/portfolios/user/' + userId
     }).pipe(delay(500));
@@ -169,11 +150,8 @@ export class MockApiService {
   // Market Data Methods
   getMarketData(symbol: string): Observable<ApiResponse<MarketData>> {
     return of({
-      code: 200,
+      status: 200,
       message: 'Market data retrieved successfully',
-      timestamp: Date.now(),
-      requestId: 'mock-request-id',
-      fieldsErrors: null,
       data: this.generateMockMarketData(symbol),
       path: '/market/data/' + symbol
     }).pipe(delay(300));
@@ -181,11 +159,8 @@ export class MockApiService {
 
   getMarketIndices(): Observable<ApiResponse<{ indices: MarketIndex[] }>> {
     return of({
-      code: 200,
+      status: 200,
       message: 'Market indices retrieved successfully',
-      timestamp: Date.now(),
-      requestId: 'mock-request-id',
-      fieldsErrors: null,
       data: { indices: this.generateMockMarketIndices() },
       path: '/market/indices'
     }).pipe(delay(300));
@@ -201,11 +176,8 @@ export class MockApiService {
     }));
     
     return of({
-      code: 200,
+      status: 200,
       message: 'Top gainers retrieved successfully',
-      timestamp: Date.now(),
-      requestId: 'mock-request-id',
-      fieldsErrors: null,
       data: gainers,
       path: '/market/top-gainers'
     }).pipe(delay(400));
@@ -221,11 +193,8 @@ export class MockApiService {
     }));
     
     return of({
-      code: 200,
+      status: 200,
       message: 'Top losers retrieved successfully',
-      timestamp: Date.now(),
-      requestId: 'mock-request-id',
-      fieldsErrors: null,
       data: losers,
       path: '/market/top-losers'
     }).pipe(delay(400));
@@ -234,11 +203,8 @@ export class MockApiService {
   // Analytics Methods
   getTradingStatistics(userId: string, period: string): Observable<ApiResponse<TradingStatistics>> {
     return of({
-      code: 200,
+      status: 200,
       message: 'Trading statistics retrieved successfully',
-      timestamp: Date.now(),
-      requestId: 'mock-request-id',
-      fieldsErrors: null,
       data: this.generateMockTradingStatistics(),
       path: '/analytics/user/' + userId + '/statistics'
     }).pipe(delay(600));
@@ -246,11 +212,8 @@ export class MockApiService {
 
   getPerformanceMetrics(userId: string, period: string): Observable<ApiResponse<PerformanceMetrics>> {
     return of({
-      code: 200,
+      status: 200,
       message: 'Performance metrics retrieved successfully',
-      timestamp: Date.now(),
-      requestId: 'mock-request-id',
-      fieldsErrors: null,
       data: this.generateMockPerformanceMetrics(),
       path: '/analytics/user/' + userId + '/performance'
     }).pipe(delay(600));
@@ -273,11 +236,8 @@ export class MockApiService {
     };
     
     return of({
-      code: 200,
+      status: 200,
       message: 'Trade analysis retrieved successfully',
-      timestamp: Date.now(),
-      requestId: 'mock-request-id',
-      fieldsErrors: null,
       data: analysis,
       path: '/analytics/user/' + userId + '/trade-analysis'
     }).pipe(delay(800));
@@ -286,11 +246,8 @@ export class MockApiService {
   // Other methods can be added as needed
   logout(): Observable<ApiResponse<void>> {
     return of({
-      code: 200,
+      status: 200,
       message: 'Logout successful',
-      timestamp: Date.now(),
-      requestId: 'mock-request-id',
-      fieldsErrors: null,
       data: undefined,
       path: '/auth/logout'
     }).pipe(delay(500));
@@ -298,11 +255,8 @@ export class MockApiService {
 
   getProfile(): Observable<ApiResponse<any>> {
     return of({
-      code: 200,
+      status: 200,
       message: 'Profile retrieved successfully',
-      timestamp: Date.now(),
-      requestId: 'mock-request-id',
-      fieldsErrors: null,
       data: { id: '1', email: 'test@example.com', name: 'Test User' },
       path: '/auth/profile'
     }).pipe(delay(300));

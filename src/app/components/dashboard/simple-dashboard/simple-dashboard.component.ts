@@ -12,7 +12,7 @@ import { MatChipsModule } from '@angular/material/chips';
 import { ApiService, Portfolio, MarketData, MarketIndex, TradingStatistics, Holding } from '../../../services/api.service';
 
 @Component({
-  selector: 'app-simple-dashboard',
+  selector: 'app-simple-view',
   standalone: true,
   imports: [
     CommonModule,
@@ -93,7 +93,7 @@ export class SimpleDashboardComponent implements OnInit {
     // Load all dashboard data in parallel
     this.apiService.getUserPortfolio('current-user').subscribe({
       next: (response) => {
-        if (response.code === 200) {
+        if (response.status === 200) {
           this.portfolio = response.data;
           console.log('Portfolio loaded:', this.portfolio);
         } else {
@@ -109,7 +109,7 @@ export class SimpleDashboardComponent implements OnInit {
 
     this.apiService.getMarketIndices().subscribe({
       next: (response) => {
-        if (response.code === 200) {
+        if (response.status === 200) {
           this.marketIndices = response.data.indices;
           console.log('Market indices loaded:', this.marketIndices);
         } else {
@@ -125,7 +125,7 @@ export class SimpleDashboardComponent implements OnInit {
 
     this.apiService.getTopGainers(5).subscribe({
       next: (response) => {
-        if (response.code === 200) {
+        if (response.status === 200) {
           this.topGainers = response.data;
           console.log('Top gainers loaded:', this.topGainers);
         } else {
@@ -141,7 +141,7 @@ export class SimpleDashboardComponent implements OnInit {
 
     this.apiService.getTopLosers(5).subscribe({
       next: (response) => {
-        if (response.code === 200) {
+        if (response.status === 200) {
           this.topLosers = response.data;
           console.log('Top losers loaded:', this.topLosers);
         } else {
@@ -157,7 +157,7 @@ export class SimpleDashboardComponent implements OnInit {
 
     this.apiService.getTradingStatistics('current-user', '30d').subscribe({
       next: (response) => {
-        if (response.code === 200) {
+        if (response.status === 200) {
           this.tradingStats = response.data;
           console.log('Trading stats loaded:', this.tradingStats);
         } else {

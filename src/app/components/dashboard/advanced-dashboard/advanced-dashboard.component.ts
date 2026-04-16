@@ -20,7 +20,7 @@ import { ApiService, Portfolio, MarketData, MarketIndex, TradingStatistics, Hold
 import { Subject, takeUntil } from 'rxjs';
 
 @Component({
-  selector: 'app-advanced-dashboard',
+  selector: 'app-advanced-view',
   standalone: true,
   imports: [
     CommonModule,
@@ -104,7 +104,7 @@ export class AdvancedDashboardComponent implements OnInit, OnDestroy {
     // Load all dashboard data in parallel
     this.apiService.getUserPortfolio('current-user').pipe(takeUntil(this.destroy$)).subscribe({
       next: (response) => {
-        if (response.code === 200) {
+        if (response.status === 200) {
           this.portfolio = response.data;
         }
       },
@@ -116,7 +116,7 @@ export class AdvancedDashboardComponent implements OnInit, OnDestroy {
 
     this.apiService.getMarketIndices().pipe(takeUntil(this.destroy$)).subscribe({
       next: (response) => {
-        if (response.code === 200) {
+        if (response.status === 200) {
           this.marketIndices = response.data.indices;
         }
       },
@@ -128,7 +128,7 @@ export class AdvancedDashboardComponent implements OnInit, OnDestroy {
 
     this.apiService.getTopGainers(5).pipe(takeUntil(this.destroy$)).subscribe({
       next: (response) => {
-        if (response.code === 200) {
+        if (response.status === 200) {
           this.topGainers = response.data;
         }
       },
@@ -140,7 +140,7 @@ export class AdvancedDashboardComponent implements OnInit, OnDestroy {
 
     this.apiService.getTopLosers(5).pipe(takeUntil(this.destroy$)).subscribe({
       next: (response) => {
-        if (response.code === 200) {
+        if (response.status === 200) {
           this.topLosers = response.data;
         }
       },
@@ -152,7 +152,7 @@ export class AdvancedDashboardComponent implements OnInit, OnDestroy {
 
     this.apiService.getTradingStatistics('current-user', '30d').pipe(takeUntil(this.destroy$)).subscribe({
       next: (response) => {
-        if (response.code === 200) {
+        if (response.status === 200) {
           this.tradingStats = response.data;
         }
       },
@@ -164,8 +164,8 @@ export class AdvancedDashboardComponent implements OnInit, OnDestroy {
 
     this.apiService.getUserOrders('current-user').pipe(takeUntil(this.destroy$)).subscribe({
       next: (response) => {
-        if (response.code === 200) {
-          this.recentOrders = response.data.slice(0, 5); // Show last 5 orders
+        if (response.status === 200) {
+          this.recentOrders = response.data; // Show all orders
         }
       },
       error: (error) => {

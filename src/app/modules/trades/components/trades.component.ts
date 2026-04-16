@@ -18,6 +18,7 @@ import { MatCardModule } from '@angular/material/card';
     MatTabsModule,
     MatCardModule
   ],
+  styleUrls: ['./trades.component.css'],
   template: `
     <div class="trades-container">
       <mat-toolbar class="trades-header" color="primary">

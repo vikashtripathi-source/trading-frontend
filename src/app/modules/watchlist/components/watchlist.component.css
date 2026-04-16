@@ -1,0 +1,243 @@
+/* Watchlist Component Typography */
+
+.watchlist-container {
+  padding: 0;
+  background: #f8fafc;
+  min-height: 100vh;
+}
+
+/* Header Typography */
+.watchlist-header {
+  background: linear-gradient(135deg, #7c3aed 0%, #8b5cf6 100%);
+  color: white;
+  padding: 16px 24px;
+  margin-bottom: 24px;
+}
+
+.header-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: white;
+  margin: 0;
+}
+
+/* Card Typography */
+.watchlist-card {
+  margin: 0 24px 24px;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.watchlist-card .mat-mdc-card-header {
+  background: linear-gradient(135deg, #ec4899 0%, #f472b6 100%);
+  color: white;
+  padding: 20px;
+}
+
+.watchlist-card .mat-mdc-card-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: white;
+  margin: 0;
+}
+
+/* Tab Typography */
+.mat-mdc-tab-group {
+  margin: 0 24px;
+}
+
+.mat-mdc-tab {
+  font-size: 1rem;
+  font-weight: 500;
+  text-transform: none;
+}
+
+.mat-mdc-tab-label {
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+/* Form Typography */
+.create-watchlist-form {
+  padding: 24px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.form-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin: 0 0 20px 0;
+}
+
+.form-label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #374151;
+  margin-bottom: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.form-input {
+  font-size: 1rem;
+  font-weight: 400;
+  color: #1f2937;
+}
+
+.form-btn {
+  font-size: 1rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 12px 24px;
+  border-radius: 8px;
+  background: #8b5cf6;
+  color: white;
+}
+
+/* Watchlist Item Typography */
+.watchlist-items {
+  padding: 24px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.watchlist-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  border-bottom: 1px solid #e5e7eb;
+  transition: background 0.2s;
+}
+
+.watchlist-item:hover {
+  background: #f9fafb;
+}
+
+.watchlist-item:last-child {
+  border-bottom: none;
+}
+
+.item-symbol {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.item-price {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #4b5563;
+}
+
+.item-change {
+  font-size: 0.95rem;
+  font-weight: 600;
+  padding: 4px 8px;
+  border-radius: 12px;
+}
+
+.item-change.positive {
+  background: #d1fae5;
+  color: #065f46;
+}
+
+.item-change.negative {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+/* Action Buttons Typography */
+.action-btn {
+  font-size: 0.875rem;
+  font-weight: 500;
+  padding: 6px 12px;
+  border-radius: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.action-btn.edit {
+  background: #3b82f6;
+  color: white;
+}
+
+.action-btn.delete {
+  background: #ef4444;
+  color: white;
+}
+
+/* Content Typography */
+.watchlist-content {
+  padding: 0;
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 400px;
+  color: #666;
+  font-size: 1.1rem;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 40px;
+  color: #6c757d;
+}
+
+.empty-state-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #4b5563;
+  margin: 0 0 8px 0;
+}
+
+.empty-state-text {
+  font-size: 1rem;
+  font-weight: 400;
+  color: #6c757d;
+  margin: 0;
+}
+
+/* Responsive Typography */
+@media (max-width: 768px) {
+  .watchlist-header {
+    padding: 12px 16px;
+  }
+  
+  .header-title {
+    font-size: 1.25rem;
+  }
+  
+  .watchlist-card {
+    margin: 0 16px 16px;
+  }
+  
+  .mat-mdc-tab-group {
+    margin: 0 16px;
+  }
+  
+  .create-watchlist-form,
+  .watchlist-items {
+    padding: 16px;
+  }
+  
+  .item-symbol {
+    font-size: 1rem;
+  }
+  
+  .item-price {
+    font-size: 0.95rem;
+  }
+  
+  .item-change {
+    font-size: 0.875rem;
+  }
+}

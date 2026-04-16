@@ -73,7 +73,7 @@ export class SimpleLoginComponent {
       next: (response) => {
         console.log('Login response:', response);
         
-        if (response.code === 200 && response.data && response.data.token) {
+        if (response.status === 200 && response.data && response.data.token) {
           if (isPlatformBrowser(this.platformId)) {
             localStorage.setItem('jwt_token', response.data.token);
             localStorage.setItem('user_data', JSON.stringify(response.data.user));

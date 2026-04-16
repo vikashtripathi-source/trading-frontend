@@ -104,7 +104,7 @@ import { ApiService, Trade } from '../../../services/api.service';
               <tbody>
                 <tr *ngFor="let trade of filteredTrades">
                   <td>
-                    <span class="trade-id">{{ trade.id.substring(0, 8) }}...</span>
+                    <span class="trade-id">{{ trade.id }}</span>
                   </td>
                   <td>
                     <strong>{{ trade.symbol }}</strong>

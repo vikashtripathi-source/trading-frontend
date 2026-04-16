@@ -2,10 +2,10 @@
 <main class="main-content" [class.auth-page]="!showNavbar">
   <div class="dashboard-nav" *ngIf="showNavbar">
     <button mat-button (click)="router.navigate(['/dashboard'])" [class.active]="router.url === '/dashboard'">
-      Simple Dashboard
+      Simple View
     </button>
     <button mat-button (click)="router.navigate(['/dashboard-advanced'])" [class.active]="router.url === '/dashboard-advanced'">
-      Advanced Dashboard
+      Advanced View
     </button>
   </div>
   <router-outlet></router-outlet>

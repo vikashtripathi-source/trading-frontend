@@ -468,7 +468,7 @@ export class CreateOrderComponent implements OnInit {
   loadMarketData(symbol: string): void {
     this.apiService.getMarketData(symbol).subscribe({
       next: (response) => {
-        if (response.code === 200) {
+        if (response.status === 200) {
           this.marketData = response.data;
         }
       },
@@ -500,7 +500,7 @@ export class CreateOrderComponent implements OnInit {
 
     this.apiService.createOrder(orderRequest).subscribe({
       next: (response) => {
-        if (response.code === 201) {
+        if (response.status === 201) {
           this.snackBar.open('Order placed successfully!', 'Close', { duration: 3000 });
           this.resetForm();
         } else {

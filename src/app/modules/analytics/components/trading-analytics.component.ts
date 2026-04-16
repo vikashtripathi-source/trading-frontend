@@ -86,8 +86,8 @@ import { ApiService, TradingStatistics } from '../../../services/api.service';
                   <mat-icon>attach_money</mat-icon>
                 </div>
                 <div class="stat-content">
-                  <div class="stat-value" [ngClass]="getPnLClass(statistics.totalPnL)">
-                    {{ formatCurrency(statistics.totalPnL) }}
+                  <div class="stat-value" [ngClass]="getPnLClass(statistics.netProfit)">
+                    {{ formatCurrency(statistics.netProfit) }}
                   </div>
                   <div class="stat-label">Total P&L</div>
                 </div>

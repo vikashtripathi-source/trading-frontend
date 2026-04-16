@@ -1,10 +1,10 @@
-.dashboard-container {
+.overview-container {
   padding: 20px;
   background: #f5f7fa;
   min-height: 100vh;
 }
 
-.dashboard-header {
+.overview-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -50,7 +50,7 @@
   padding: 8px 16px;
 }
 
-.dashboard-content {
+.overview-content {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 20px;
@@ -70,10 +70,27 @@
   z-index: 1000;
 }
 
+/* Welcome Title Typography */
+.welcome-title {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #2c3e50;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.welcome-subtitle {
+  font-size: 1.1rem;
+  color: #6c757d;
+  margin: 8px 0 0 0;
+  font-weight: 400;
+}
+
 .loading-overlay p {
   margin-top: 16px;
-  font-size: 18px;
+  font-size: 1.1rem;
   color: #333;
+  font-weight: 500;
 }
 
 .portfolio-card, .indices-card, .holdings-card, .stats-card {
@@ -114,7 +131,15 @@
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
   font-weight: 600;
-  font-size: 18px;
+  font-size: 1.1rem;
+  padding: 16px 20px;
+}
+
+.mat-card-header h2 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0;
+  color: white;
 }
 
 .mat-card-content {
@@ -136,16 +161,19 @@
 }
 
 .stat-label {
-  font-size: 12px;
+  font-size: 0.875rem;
   color: #6c757d;
   margin-bottom: 8px;
   font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .stat-value {
-  font-size: 20px;
+  font-size: 1.5rem;
   font-weight: 700;
   color: #2c3e50;
+  line-height: 1.2;
 }
 
 .profit {
@@ -224,7 +252,7 @@ td {
 }
 
 @media (max-width: 1200px) {
-  .dashboard-content {
+  .overview-content {
     grid-template-columns: 1fr;
   }
   
@@ -241,11 +269,11 @@ td {
 }
 
 @media (max-width: 768px) {
-  .dashboard-container {
+  .overview-container {
     padding: 10px;
   }
   
-  .dashboard-header {
+  .overview-header {
     flex-direction: column;
     gap: 16px;
     text-align: center;

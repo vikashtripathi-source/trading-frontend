@@ -159,7 +159,7 @@ export class RegisterComponent {
 
     const errors = control.errors;
     
-    if (errors['required']) return `${field.charAt(0).toUpperCase() + field.slice(1)} is required`;
+    if (errors['required']) return `${field.charAt(0).toUpperCase()}${field.slice(1)} is required`;
     if (errors['email']) return 'Please enter a valid email address';
     if (errors['minlength']) return `Minimum ${errors['minlength'].requiredLength} characters required`;
     if (errors['pattern']) {

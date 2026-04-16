@@ -101,7 +101,7 @@ export class SimpleSignupComponent {
     this.apiService.register(formData).subscribe({
       next: (response) => {
         console.log('Signup response:', response);
-        if (response.code === 201) {
+        if (response.status === 201) {
           this.showSnackBar('Registration successful! Please login.', 'success');
           this.router.navigate(['/login']);
         } else {

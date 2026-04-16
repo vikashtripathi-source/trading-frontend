@@ -318,7 +318,7 @@ export class PortfolioHoldingsComponent implements OnInit {
     
     this.apiService.getUserPortfolio(userId).subscribe({
       next: (response) => {
-        if (response.code === 200) {
+        if (response.status === 200) {
           this.holdings = response.data.holdings || [];
           this.sortHoldings();
         }

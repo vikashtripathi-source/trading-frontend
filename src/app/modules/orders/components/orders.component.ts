@@ -22,65 +22,45 @@ import { CreateOrderComponent } from './create-order.component';
     OrdersListComponent,
     CreateOrderComponent
   ],
+  styleUrls: ['./orders.component.css'],
   template: `
     <div class="orders-container">
-      <mat-toolbar class="orders-header" color="primary">
-        <button mat-icon-button (click)="goBack()">
-          <mat-icon>arrow_back</mat-icon>
-        </button>
-        <span class="header-title">Order Management</span>
-        <button mat-icon-button (click)="refreshData()">
-          <mat-icon>refresh</mat-icon>
-        </button>
-      </mat-toolbar>
+      <header class="orders-header">
+        <div class="header-left">
+          <button mat-icon-button class="back-btn" (click)="goBack()">
+            <mat-icon>arrow_back</mat-icon>
+          </button>
+        </div>
+        <div class="header-center">
+          <h1 class="header-title">Order Management</h1>
+        </div>
+        <div class="header-right">
+          <button mat-icon-button class="refresh-btn" (click)="refreshData()">
+            <mat-icon>refresh</mat-icon>
+          </button>
+        </div>
+      </header>
 
-      <div class="orders-content">
-        <mat-tab-group class="orders-tabs">
+      <main class="orders-content">
+        <mat-tab-group class="modern-tabs" mat-align-tabs="center">
           <mat-tab label="Orders">
             <ng-template matTabContent>
-              <app-orders-list></app-orders-list>
+              <div class="tab-content">
+                <app-orders-list></app-orders-list>
+              </div>
             </ng-template>
           </mat-tab>
           <mat-tab label="Create Order">
             <ng-template matTabContent>
-              <app-create-order></app-create-order>
+              <div class="tab-content">
+                <app-create-order></app-create-order>
+              </div>
             </ng-template>
           </mat-tab>
         </mat-tab-group>
-      </div>
+      </main>
     </div>
-  `,
-  styles: [`
-    .orders-container {
-      padding: 20px;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-
-    .orders-header {
-      margin-bottom: 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .header-title {
-      font-size: 20px;
-      font-weight: 600;
-      flex: 1;
-      text-align: center;
-    }
-
-    .orders-tabs {
-      margin-top: 20px;
-    }
-
-    @media (max-width: 768px) {
-      .orders-container {
-        padding: 10px;
-      }
-    }
-  `]
+  `
 })
 export class OrdersComponent implements OnInit {
 

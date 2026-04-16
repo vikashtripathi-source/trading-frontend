@@ -1,8 +1,19 @@
 /* You can add global styles to this file, and also import other style files */
 
-/* Global font improvements */
+/* Import design systems and fonts first */
+@import './styles/typography.css';
+@import './styles/trading-dashboard.css';
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons&display=swap');
 
+@font-face {
+  font-family: 'Material Icons';
+  font-style: normal;
+  font-weight: 400;
+  src: url(https://fonts.gstatic.com/s/materialicons/v140/flUhRq6tzZclQEJ-Vdg-IuiaDsNcIhQ8tQ.woff2) format('woff2');
+}
+
+/* Global font improvements */
 * {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -43,6 +54,36 @@ button {
   font-family: inherit;
   font-weight: 600;
   letter-spacing: 0.01em;
+}
+
+/* Material Icons Fallback Prevention */
+.mat-icon {
+  font-family: 'Material Icons' !important;
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-feature-settings: 'liga';
+  -webkit-font-smoothing: antialiased;
+  font-display: swap !important;
+}
+
+/* Prevent Material Icons from falling back to text */
+.mat-icon::before {
+  font-family: 'Material Icons' !important;
+  content: attr(data-mat-icon-name) !important;
+  speak: none;
+}
+
+/* Hide any fallback text that might appear */
+.mat-icon:not(.mat-icon-no-color) {
+  color: inherit;
 }
 
 /* Global Material Design v3 form field fixes */
@@ -106,4 +147,169 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 600;
   letter-spacing: -0.01em;
   line-height: 1.2;
+}
+
+/* Global Ghost Text Prevention */
+.mat-mdc-form-field .mdc-floating-label {
+  position: static !important;
+  transform: none !important;
+  transition: none !important;
+}
+
+.mat-mdc-form-field:not(.mat-focused) .mdc-floating-label {
+  opacity: 1 !important;
+}
+
+.mat-mdc-form-field.mat-focused .mdc-floating-label {
+  opacity: 0 !important;
+}
+
+/* Prevent text fragments from Material components */
+.mat-mdc-form-field-label span {
+  display: inline-block !important;
+  width: 100% !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+
+/* Clean up any orphaned text nodes */
+.mat-mdc-form-field-label::before,
+.mat-mdc-form-field-label::after,
+.mdc-floating-label::before,
+.mdc-floating-label::after {
+  display: none !important;
+  content: none !important;
+}
+
+/* Prevent text bleeding from overlay elements */
+.mat-mdc-form-field-focus-overlay,
+.mat-mdc-form-field-underline,
+.mat-mdc-form-field-ripple {
+  display: none !important;
+}
+
+/* Ensure clean text rendering in all components */
+span, div, p, h1, h2, h3, h4, h5, h6 {
+  text-rendering: optimizeLegibility !important;
+  -webkit-font-smoothing: antialiased !important;
+  -moz-osx-font-smoothing: grayscale !important;
+}
+
+/* Remove any floating label artifacts */
+.mat-mdc-form-field.mat-mdc-form-field-should-float .mdc-floating-label {
+  transform: translateY(-100%) scale(0.75) !important;
+  opacity: 0 !important;
+}
+
+/* Comprehensive Material Icons Fix */
+
+/* Force Material Icons to use correct font */
+mat-icon, .mat-icon {
+  font-family: 'Material Icons' !important;
+  font-weight: normal !important;
+  font-style: normal !important;
+  font-size: 24px !important;
+  display: inline-block !important;
+  line-height: 1 !important;
+  text-transform: none !important;
+  letter-spacing: normal !important;
+  word-wrap: normal !important;
+  white-space: nowrap !important;
+  direction: ltr !important;
+  -webkit-font-smoothing: antialiased !important;
+  -moz-osx-font-smoothing: grayscale !important;
+  text-rendering: optimizeLegibility !important;
+}
+
+/* Hide any text content inside Material Icons */
+mat-icon::before, .mat-icon::before,
+mat-icon::after, .mat-icon::after {
+  font-family: 'Material Icons' !important;
+}
+
+/* Prevent any fallback text from showing */
+mat-icon span, .mat-icon span {
+  display: none !important;
+}
+
+/* Ensure Material Icons content is properly rendered */
+mat-icon:not([data-mat-icon]), .mat-icon:not([data-mat-icon]) {
+  overflow: hidden !important;
+  text-indent: -9999px !important;
+}
+
+/* Fix Material Icons that might be rendered as text */
+.mat-icon:not(.mat-icon-rtl-mirror) {
+  font-feature-settings: 'liga' 1 !important;
+}
+
+/* Additional fallback prevention */
+.mat-icon[data-mat-icon] {
+  font-family: 'Material Icons' !important;
+}
+
+/* Hide any orphaned text nodes near Material Icons */
+.mat-icon + span:not(.nav-label):not(.user-name):not(.notification-badge),
+span + .mat-icon {
+  display: none !important;
+}
+
+/* Prevent ghost text from tooltips and badges */
+.mat-mdc-tooltip, .mat-tooltip {
+  font-family: inherit !important;
+}
+
+.notification-badge, .badge {
+  font-family: inherit !important;
+  text-rendering: optimizeLegibility !important;
+}
+
+/* Fix navigation and action button text */
+.nav-item, .dropdown-item, .action-btn {
+  font-family: inherit !important;
+  text-rendering: optimizeLegibility !important;
+}
+
+/* Prevent text fragments in headers and titles */
+h1, h2, h3, h4, h5, h6, .header-title, .page-title {
+  font-family: inherit !important;
+  text-rendering: optimizeLegibility !important;
+  position: relative !important;
+  z-index: auto !important;
+}
+
+/* Clean up any floating text elements */
+.floating-text, .ghost-text, .text-fragment {
+  display: none !important;
+}
+
+/* Prevent text bleeding from overlays */
+.mat-mdc-tooltip-panel, .mat-menu-panel, .mat-mdc-select-panel {
+  overflow: hidden !important;
+}
+
+/* Fix any text rendering issues in buttons */
+button, .mat-button, .mat-raised-button, .mat-stroked-button, .mat-icon-button {
+  font-family: inherit !important;
+  text-rendering: optimizeLegibility !important;
+}
+
+/* Prevent duplicate text in dropdown menus */
+.mat-mdc-menu-item-text, .mat-menu-item-text {
+  font-family: inherit !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+
+/* Clean up any stray text nodes */
+.text-node:empty, span:empty:not(.mat-icon) {
+  display: none !important;
+}
+
+/* Prevent text artifacts in Material components */
+.mat-mdc-button, .mat-mdc-raised-button, .mat-mdc-outlined-button {
+  font-family: inherit !important;
+  text-rendering: optimizeLegibility !important;
 }

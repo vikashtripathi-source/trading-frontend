@@ -89,7 +89,7 @@ import { ApiService, Order } from '../../../services/api.service';
               <tbody>
                 <tr *ngFor="let order of filteredOrders">
                   <td>
-                    <span class="order-id">{{ order.id.substring(0, 8) }}...</span>
+                    <span class="order-id">{{ order.id }}</span>
                   </td>
                   <td>
                     <strong>{{ order.symbol }}</strong>
@@ -303,7 +303,7 @@ export class OrdersListComponent implements OnInit {
     
     this.apiService.getUserOrders(userId, this.statusFilter || undefined).subscribe({
       next: (response) => {
-        if (response.code === 200) {
+        if (response.status === 200) {
           this.orders = response.data;
           this.filterOrders();
         } else {
@@ -347,7 +347,7 @@ export class OrdersListComponent implements OnInit {
   cancelOrder(orderId: string): void {
     this.apiService.cancelOrder(orderId).subscribe({
       next: (response) => {
-        if (response.code === 200) {
+        if (response.status === 200) {
           this.snackBar.open('Order cancelled successfully', 'Close', { duration: 3000 });
           this.loadOrders();
         } else {

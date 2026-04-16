@@ -1,0 +1,142 @@
+/* Portfolio Component Typography */
+
+.portfolio-container {
+  padding: 0;
+  background: #f8fafc;
+  min-height: 100vh;
+}
+
+/* Header Typography */
+.portfolio-header {
+  background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+  color: white;
+  padding: 16px 24px;
+  margin-bottom: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header-btn {
+  color: white;
+  border: none;
+  background: transparent;
+}
+
+.header-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.header-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: white;
+  margin: 0;
+  text-align: center;
+  flex: 1;
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Card Typography */
+.portfolio-summary {
+  margin: 0 24px 24px;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.portfolio-summary .mat-mdc-card-header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 20px;
+}
+
+.portfolio-summary .mat-mdc-card-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: white;
+  margin: 0;
+}
+
+/* Summary Grid Typography */
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  padding: 24px;
+}
+
+.summary-item {
+  text-align: center;
+  padding: 20px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  border: 1px solid #e9ecef;
+}
+
+.summary-item .label {
+  font-size: 0.875rem;
+  color: #6c757d;
+  margin-bottom: 8px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.summary-item .value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #2c3e50;
+  line-height: 1.2;
+}
+
+/* Tab Typography */
+.mat-mdc-tab-group {
+  margin: 0 24px;
+}
+
+.mat-mdc-tab {
+  font-size: 1rem;
+  font-weight: 500;
+  text-transform: none;
+}
+
+/* Content Typography */
+.portfolio-content {
+  padding: 0;
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 400px;
+  color: #666;
+  font-size: 1.1rem;
+}
+
+/* Responsive Typography */
+@media (max-width: 768px) {
+  .portfolio-header {
+    padding: 12px 16px;
+  }
+  
+  .header-title {
+    font-size: 1.25rem;
+  }
+  
+  .portfolio-summary {
+    margin: 0 16px 16px;
+  }
+  
+  .summary-grid {
+    grid-template-columns: 1fr;
+    padding: 16px;
+  }
+  
+  .mat-mdc-tab-group {
+    margin: 0 16px;
+  }
+}

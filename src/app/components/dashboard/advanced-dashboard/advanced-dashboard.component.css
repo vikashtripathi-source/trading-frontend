@@ -1,10 +1,10 @@
-.dashboard-container {
+.overview-container {
   padding: 20px;
   background: #f8fafc;
   min-height: 100vh;
 }
 
-.dashboard-header {
+.overview-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -60,14 +60,30 @@
   z-index: 1000;
 }
 
+/* Welcome Title Typography */
+.welcome-title {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #2c3e50;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.welcome-subtitle {
+  font-size: 1.1rem;
+  color: #6c757d;
+  margin: 8px 0 0 0;
+  font-weight: 400;
+}
+
 .loading-overlay p {
   margin-top: 16px;
-  font-size: 18px;
+  font-size: 1.1rem;
   color: #333;
   font-weight: 500;
 }
 
-.dashboard-content {
+.overview-content {
   display: grid;
   grid-template-columns: 1fr;
   gap: 24px;
@@ -134,12 +150,19 @@
 }
 
 .card-title {
-  margin: 0;
-  font-size: 18px;
+  font-size: 1.25rem;
   font-weight: 600;
+  margin: 0;
+  color: white;
   display: flex;
   align-items: center;
   gap: 8px;
+}
+
+.card-title mat-icon {
+  font-size: 1.2rem;
+  height: 1.2rem;
+  width: 1.2rem;
 }
 
 .view-all-btn {
@@ -184,7 +207,7 @@
 }
 
 .stat-label {
-  font-size: 14px;
+  font-size: 0.875rem;
   color: #64748b;
   margin-bottom: 8px;
   font-weight: 500;
@@ -193,10 +216,11 @@
 }
 
 .stat-value {
-  font-size: 24px;
+  font-size: 1.75rem;
   font-weight: 700;
   color: #1a202c;
   margin-bottom: 4px;
+  line-height: 1.2;
 }
 
 /* Quick Trade Form */
@@ -401,11 +425,11 @@
 }
 
 @media (max-width: 768px) {
-  .dashboard-container {
+  .overview-container {
     padding: 10px;
   }
   
-  .dashboard-header {
+  .overview-header {
     flex-direction: column;
     gap: 16px;
     text-align: center;
@@ -438,7 +462,7 @@
 }
 
 @media (max-width: 480px) {
-  .dashboard-container {
+  .overview-container {
     padding: 5px;
   }
   

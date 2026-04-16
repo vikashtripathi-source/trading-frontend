@@ -18,6 +18,7 @@ import { MatCardModule } from '@angular/material/card';
     MatTabsModule,
     MatCardModule
   ],
+  styleUrls: ['./watchlist.component.css'],
   template: `
     <div class="watchlist-container">
       <mat-toolbar class="watchlist-header" color="primary">

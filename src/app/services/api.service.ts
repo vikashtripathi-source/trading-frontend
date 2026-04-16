@@ -6,11 +6,8 @@ import { isPlatformBrowser } from '@angular/common';
 import { MockApiService } from './mock-api.service';
 
 export interface ApiResponse<T> {
-  code: number;
+  status: number;
   message: string;
-  timestamp: number;
-  requestId: string;
-  fieldsErrors: any[] | null;
   data: T;
   path: string;
 }
@@ -34,15 +31,10 @@ export interface CreateTradeRequest {
 }
 
 export interface Portfolio {
-  id: string;
-  userId: string;
-  name: string;
   totalValue: number;
   availableBalance: number;
-  totalInvested: number;
   totalPnL: number;
   dailyPnL: number;
-  lastUpdated: string;
   holdings: Holding[];
 }
 
@@ -114,10 +106,9 @@ export interface MarketData {
 
 export interface MarketIndex {
   name: string;
-  symbol: string;
   value: number;
   change: number;
-  changePercentage: number;
+  changePercent: number;
 }
 
 export interface SymbolSearchResult {
@@ -129,14 +120,9 @@ export interface SymbolSearchResult {
 
 export interface TradingStatistics {
   totalTrades: number;
-  winningTrades: number;
-  losingTrades: number;
   winRate: number;
-  averageWin: number;
-  averageLoss: number;
   profitFactor: number;
-  totalPnL: number;
-  averageHoldingPeriod: number;
+  netProfit: number;
 }
 
 export interface PerformanceMetrics {
@@ -287,8 +273,15 @@ export class ApiService {
     if (this.useMockApi) {
       return this.mockApiService.getUserPortfolio(userId);
     }
-    return this.http.get<ApiResponse<Portfolio>>(`${this.baseUrl}/portfolios/user/${userId}`, {
-      headers: this.getHeaders()
+    
+    // Use /current endpoint as per backend API specifications
+    const endpoint = userId === 'current-user' ? 'current' : userId;
+    const headers = this.getHeaders();
+    console.log('Portfolio API Headers:', headers);
+    console.log('Portfolio API URL:', `${this.baseUrl}/portfolios/user/${endpoint}`);
+    
+    return this.http.get<ApiResponse<Portfolio>>(`${this.baseUrl}/portfolios/user/${endpoint}`, {
+      headers: headers
     });
   }
 
@@ -403,7 +396,9 @@ export class ApiService {
     if (this.useMockApi) {
       return this.mockApiService.getTradingStatistics(userId, period);
     }
-    return this.http.get<ApiResponse<TradingStatistics>>(`${this.baseUrl}/analytics/user/${userId}/statistics?period=${period}`, {
+    // Use /current endpoint as per backend API specifications
+    const endpoint = userId === 'current-user' ? 'current' : userId;
+    return this.http.get<ApiResponse<TradingStatistics>>(`${this.baseUrl}/analytics/user/${endpoint}/statistics?period=${period}`, {
       headers: this.getHeaders()
     });
   }
@@ -412,7 +407,9 @@ export class ApiService {
     if (this.useMockApi) {
       return this.mockApiService.getPerformanceMetrics(userId, period);
     }
-    return this.http.get<ApiResponse<PerformanceMetrics>>(`${this.baseUrl}/analytics/user/${userId}/performance?period=${period}`, {
+    // Use /current endpoint as per backend API specifications
+    const endpoint = userId === 'current-user' ? 'current' : userId;
+    return this.http.get<ApiResponse<PerformanceMetrics>>(`${this.baseUrl}/analytics/user/${endpoint}/performance?period=${period}`, {
       headers: this.getHeaders()
     });
   }

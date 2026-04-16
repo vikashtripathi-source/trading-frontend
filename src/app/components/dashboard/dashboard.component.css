@@ -1,21 +1,29 @@
-.dashboard-container {
+.overview-container {
   padding: 24px;
   max-width: 1400px;
   margin: 0 auto;
 }
 
-.dashboard-header {
+.overview-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 24px;
 }
 
-.dashboard-header h1 {
-  font-size: 2rem;
-  font-weight: 600;
+.overview-header h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
   color: #1a1a1a;
   margin: 0;
+  line-height: 1.2;
+}
+
+.overview-header .header-subtitle {
+  font-size: 1.1rem;
+  color: #6c757d;
+  margin: 8px 0 0 0;
+  font-weight: 400;
 }
 
 .refresh-btn {
@@ -57,7 +65,12 @@
   color: #d32f2f;
 }
 
-.dashboard-grid {
+.overview-content {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
+.overview-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 24px;
@@ -81,15 +94,19 @@
 }
 
 .stat-label {
-  font-size: 0.875rem;
+  font-size: 0.9rem;
   color: #666;
   margin-bottom: 8px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .stat-value {
-  font-size: 1.5rem;
-  font-weight: 600;
+  font-size: 1.75rem;
+  font-weight: 700;
   color: #333;
+  line-height: 1.2;
 }
 
 .stat-value.positive {
@@ -137,11 +154,13 @@
 .index-name {
   font-weight: 600;
   color: #333;
+  font-size: 1rem;
 }
 
 .index-symbol {
   font-size: 0.875rem;
   color: #666;
+  font-weight: 500;
 }
 
 .index-value {
@@ -151,11 +170,28 @@
 .index-value .value {
   font-weight: 600;
   color: #333;
+  font-size: 1.1rem;
 }
 
 .index-value .change {
   font-size: 0.875rem;
   margin-top: 2px;
+  font-weight: 500;
+}
+
+/* Card Title Typography */
+.mat-mdc-card-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #2c3e50;
+  line-height: 1.3;
+}
+
+.mat-mdc-card-subtitle {
+  font-size: 0.95rem;
+  color: #6c757d;
+  font-weight: 400;
+  margin-top: 4px;
 }
 
 .change.positive {
@@ -326,7 +362,7 @@
 
 /* Responsive Design */
 @media (max-width: 1200px) {
-  .dashboard-grid {
+  .overview-grid {
     grid-template-columns: 1fr;
   }
   
@@ -343,11 +379,11 @@
 }
 
 @media (max-width: 768px) {
-  .dashboard-container {
+  .overview-container {
     padding: 16px;
   }
   
-  .dashboard-header h1 {
+  .overview-header h1 {
     font-size: 1.5rem;
   }
   
@@ -365,7 +401,7 @@
 }
 
 @media (max-width: 480px) {
-  .dashboard-container {
+  .overview-container {
     padding: 12px;
   }
   

@@ -395,7 +395,7 @@ export class PortfolioPerformanceComponent implements OnInit {
     
     this.apiService.getPerformanceMetrics(userId, this.selectedPeriod).subscribe({
       next: (response) => {
-        if (response.code === 200) {
+        if (response.status === 200) {
           this.metrics = response.data;
         } else {
           this.snackBar.open(response.message || 'Failed to load performance metrics', 'Close', { 

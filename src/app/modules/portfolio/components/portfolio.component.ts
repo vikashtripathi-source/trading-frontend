@@ -26,17 +26,18 @@ import { PortfolioPerformanceComponent } from './portfolio-performance.component
     PortfolioHoldingsComponent,
     PortfolioPerformanceComponent
   ],
+  styleUrls: ['./portfolio.component.css'],
   template: `
     <div class="portfolio-container">
-      <mat-toolbar class="portfolio-header" color="primary">
-        <button mat-icon-button (click)="goBack()">
+      <div class="portfolio-header">
+        <button mat-icon-button (click)="goBack()" class="header-btn">
           <mat-icon>arrow_back</mat-icon>
         </button>
-        <span class="header-title">Portfolio Management</span>
-        <button mat-icon-button (click)="refreshData()">
+        <h1 class="header-title">Portfolio Management</h1>
+        <button mat-icon-button (click)="refreshData()" class="header-btn">
           <mat-icon>refresh</mat-icon>
         </button>
-      </mat-toolbar>
+      </div>
 
       <div class="portfolio-content" *ngIf="portfolio; else loading">
         <mat-card class="portfolio-summary">
@@ -55,7 +56,7 @@ import { PortfolioPerformanceComponent } from './portfolio-performance.component
               </div>
               <div class="summary-item">
                 <div class="label">Total Invested</div>
-                <div class="value">{{ formatCurrency(portfolio.totalInvested) }}</div>
+                <div class="value">{{ formatCurrency(portfolio.totalValue) }}</div>
               </div>
               <div class="summary-item">
                 <div class="label">Total P&L</div>

@@ -21,14 +21,28 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  font-size: 1.25rem;
+  font-size: 1.5rem;
   font-weight: 700;
   color: #2196f3;
+}
+
+.logo-text {
+  display: inline-block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .logo i {
   width: 32px;
   height: 32px;
+}
+
+.favicon-logo {
+  width: 32px;
+  height: 32px;
+  border-radius: 4px;
+  object-fit: contain;
 }
 
 .navbar-menu {
@@ -50,7 +64,7 @@
   transition: all 0.2s;
   font-weight: 500;
   white-space: nowrap;
-  font-size: 14px;
+  font-size: 0.95rem;
   min-width: fit-content;
 }
 
@@ -64,9 +78,18 @@
   color: #2196f3;
 }
 
-.nav-item i {
+.nav-item .nav-icon {
   width: 20px;
   height: 20px;
+  font-size: 20px;
+  color: inherit;
+}
+
+.nav-item .mat-icon {
+  width: 20px;
+  height: 20px;
+  font-size: 20px;
+  color: inherit;
 }
 
 .navbar-actions {
@@ -324,6 +347,22 @@ body.dark-mode .dropdown-divider {
   .nav-item span {
     font-size: 11px;
   }
+
+.nav-label {
+  display: inline-block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+.user-name {
+  display: inline-block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 120px;
+}
   
   .navbar-menu {
     gap: 4px;
